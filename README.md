@@ -17,14 +17,17 @@ La aplicación es capaz de enviar correos electronicos usando JavaMail.
    git clone https://github.com/Erikgb11/Proyecto_Agencia_de_viajes.git
    ```
 2. Antes de ejecutar el proyecto es necesario que configures en el código tu correo para que pueda mandar correos
-2.1 En tu cuenta de gmail es necesario que obtengas una contraseña para aplicaciones
-2.2 Una vez obtenida configura el método transfer_to_email(), especificamente las lineas:
-```zsh
-   String correoEnvia = "Aqui va tu correo";
-        String contraseña = "Aqui va tu contraseña generada(sin espacios)";
-   ```
-   En los códigos Csesion.java, Inicio.java, InicioAdmin.java e Isesion.java 
-3. Ejecutar el proyecto, aquí puedes usar netbeans para cargar el proyecto, es necesario que primero crees un Administrador, ya que con el es que vas a poder ingresar lo que se va a vender, para ello puedes ejecutar cAdmin.java y llenar el formulario.
+   2.1. En tu cuenta de gmail es necesario que obtengas una contraseña para aplicaciones
+   2.2. Una vez obtenida configura el método transfer_to_email(), especificamente las lineas:
+      ```zsh
+         String correoEnvia = "Aqui va tu correo";
+         String contraseña = "Aqui va tu contraseña generada(sin espacios)";
+      ```
+      En los códigos Csesion.java, Inicio.java, InicioAdmin.java e Isesion.java.
+3. Cargar el proyecto, aqui puedes usar netbeans, para cargarlo en netbeans ve a la pestaña de "File", alli usa la opción "Open File", busca el archivo y cargalo
+   3.1. ![Carga1](/demostraciones/carga1.png) 
+   3.2. ![Carga2](/demostraciones/carga2.png) 
+4. Ejecutar 
 
 
 ## Demostración
