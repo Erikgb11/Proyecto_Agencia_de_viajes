@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -12,6 +12,8 @@ package agencia_viajes;
 import java.io.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import agencia_viajes.*;
 public class verCrucero extends javax.swing.JFrame {
 
     /**
@@ -19,146 +21,288 @@ public class verCrucero extends javax.swing.JFrame {
      */
     public verCrucero() {
         initComponents();
-        jTcrucero.setDefaultRenderer(Object.class,new ImgTabla());
-        String titulos[]={"indice","Destino","Tipo transporte","Origen","Salida","Regreso","Pasaje","Precio","Clase"};
-        DefaultTableModel tm =new DefaultTableModel(null,titulos){public boolean isCellEditable(int row,int column){
-            return false;
-        }};
-        try{
-            FileInputStream fis = new FileInputStream("Cruceros.txt");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            Crucero h2[]= (Crucero[]) ois.readObject( );
-            ois.close();
-            for(int i=0;i<h2.length;i++){
-                tm.addRow(new Object[]{String.valueOf(i),h2[i].getdestino(),h2[i].gettipotra(),h2[i].getorigen(),h2[i].getfechaS(),h2[i].getfechaR(),String.valueOf(h2[i].getpas()),String.valueOf(h2[i].getprecio()),h2[i].tipoClase()});
-                jTcrucero.setRowHeight(50);
+        try {
+            File archivo = new File("Cruceros.txt");
+            if(archivo.exists()){
+                FileInputStream fis = new FileInputStream("Cruceros.txt");
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                Crucero c2[] = (Crucero[]) ois.readObject();
+                ois.close();
+
+                JPanel panel = new JPanel(new GridLayout(0, 3, 10, 10));  // GridLayout con 2 columnas
+                for (int i = 0; i < c2.length; i++) {
+                    final int index=i;
+                    JPanel avionPanel = new JPanel();
+                    avionPanel.setLayout(new BoxLayout(avionPanel, BoxLayout.Y_AXIS));
+
+                    JLabel origenDest = new JLabel(c2[i].getorigen()+"-"+c2[i].getdestino());
+                    JLabel fechas = new JLabel("Salida: "+c2[i].getfechaS());
+                    JLabel fechar = new JLabel("Regreso: "+c2[i].getfechaR());
+                    JLabel precio=new JLabel("Precio: "+String.valueOf(c2[i].getprecio()));
+                    JLabel photoLabel = new JLabel();
+                    JLabel habitD=new JLabel("Pasajes Disponibles: "+Integer.toString(c2[i].getpr()));
+                    JLabel clase=new JLabel("Clase: "+c2[i].tipoClase());
+                    photoLabel.setSize(150, 150);
+
+                    ImageIcon imageIcon = new ImageIcon(c2[i].getFoto());
+                    Image image = imageIcon.getImage().getScaledInstance(photoLabel.getWidth(), photoLabel.getHeight(), Image.SCALE_SMOOTH);
+                    ImageIcon scaledImageIcon = new ImageIcon(image);
+
+                    photoLabel.setIcon(scaledImageIcon);
+                    JButton verDetalleButton = new JButton("Comprar");
+                    verDetalleButton.addActionListener(new java.awt.event.ActionListener() {
+                        @Override
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            mostrarDetallesCrucero(c2[index],index);
+                        }
+                    });
+                    if(c2[i].getpr()>0){
+                        avionPanel.add(origenDest);
+                        avionPanel.add(photoLabel);
+                        avionPanel.add(fechas);
+                        avionPanel.add(fechar);
+                        avionPanel.add(precio);
+                        avionPanel.add(habitD);
+                        avionPanel.add(clase);
+                        avionPanel.add(verDetalleButton);
+
+                    panel.add(avionPanel);
+                    }
+
+                }
+
+                JScrollPane scrollPane = new JScrollPane(panel);
+                GroupLayout layout = new GroupLayout(getContentPane());
+                getContentPane().setLayout(layout);
+
+                layout.setHorizontalGroup(
+                        layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jButton1)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 697, Short.MAX_VALUE)
+                                        .addComponent(jButton3)
+                                        .addContainerGap())
+                );
+
+                layout.setVerticalGroup(
+                        layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jButton3)
+                                                .addComponent(jButton1))
+                                        .addContainerGap())
+                );
+            }else{
+                JPanel panel = new JPanel(new GridLayout(0, 1, 10, 10));
+                JPanel avionPanel = new JPanel();
+                avionPanel.setLayout(new BoxLayout(avionPanel, BoxLayout.Y_AXIS));
+                JLabel no = new JLabel("Lo sentimos, no tenemos Cruceros disponibles por el momento");
+                avionPanel.add(no);
+                panel.add(avionPanel);
+                GroupLayout layout = new GroupLayout(getContentPane());
+                getContentPane().setLayout(layout);
+                
+                GroupLayout layout2 = new GroupLayout(getContentPane());
+                getContentPane().setLayout(layout2);
+
+                // Configurar GroupLayout para manejar el panel
+                layout2.setHorizontalGroup(layout2.createSequentialGroup().addComponent(panel));
+                layout2.setVerticalGroup(layout2.createSequentialGroup().addComponent(panel));
+
+                // Configurar la ventana principal
+                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                setLocationRelativeTo(null);
+                setVisible(true);
             }
             
-        }catch(Exception e) { e.printStackTrace(); }
-        jTcrucero.setModel(tm);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTcrucero = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTcrucero.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane1.setViewportView(jTcrucero);
-
-        jButton2.setText("Salir");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("Atrás");
+        jButton3.setText("Salir");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
+        jButton1.setText("Atrás");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 697, Short.MAX_VALUE)
+                                .addComponent(jButton3)
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(333, 333, 333)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jButton3)
+                                        .addComponent(jButton1))
+                                .addContainerGap())
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+        System.exit(0);
+        Sesion.cerrarSesion();
+    }
 
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Inicio In=new Inicio();
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+        Inicio In = new Inicio();
         In.setVisible(true);
         dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }
+    private void mostrarDetallesCrucero(Crucero crucero, int index) {
+        JFrame detallesFrame = new JFrame("Detalles del Crucero");
+        detallesFrame.setSize(400, 350);
+        detallesFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+        JPanel detallesPanel = new JPanel();
+        detallesPanel.setLayout(new BoxLayout(detallesPanel, BoxLayout.Y_AXIS));
+
+        JLabel origenDest = new JLabel("Origen: " + crucero.getorigen()+" Destino: "+crucero.getdestino());
+        JLabel photoLabel=new JLabel();
+        photoLabel.setSize(150, 150);
+        JLabel fsalida = new JLabel("Fecha de salida: " + crucero.getfechaS());
+        JLabel fregreso = new JLabel("Fecha de Regreso: "+crucero.getfechaR());
+        ImageIcon imageIcon = new ImageIcon(crucero.getFoto());
+        Image image = imageIcon.getImage().getScaledInstance(photoLabel.getWidth(), photoLabel.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon scaledImageIcon = new ImageIcon(image);
+        photoLabel.setIcon(scaledImageIcon);
+        JLabel habitacionesR =new JLabel("Pasajes Restantes: "+crucero.getpr());
+        JLabel clase=new JLabel("Clase: "+crucero.tipoClase());
+        JLabel precio=new JLabel("Precio: "+crucero.getprecio());
+        JButton comprar = new JButton("Comprar");
+        SpinnerModel reservas=new SpinnerNumberModel(1,1,crucero.getpr(),1);
+        JSpinner reservaciones=new JSpinner(reservas);
+        
+        JComponent editor= reservaciones.getEditor();
+        Dimension editorPreferredSize=editor.getPreferredSize();
+        editor.setPreferredSize(new Dimension(80, editorPreferredSize.height));
+        
+        comprar.addActionListener(new java.awt.event.ActionListener() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+            double precio = ((Number) reservaciones.getValue()).doubleValue() * crucero.getprecio();
+            if(Sesion.getUsuarioActual().obtenerCuenta().mostrarS()>=precio){
+                compra compraa=new compra(index,crucero.getorigen()+"-"+crucero.getdestino(),"crucero",(Integer)reservaciones.getValue(),precio,Sesion.getUsuarioActual().obtenerCorreo());
+                System.out.println(compraa);
+                compra compras[]={compraa};
+                try {
+                    File archivo = new File("Compras.txt");
+                    if (!archivo.exists()) {
+                        try {
+                            FileOutputStream fs = new FileOutputStream("Compras.txt");
+                            ObjectOutputStream os = new ObjectOutputStream(fs);
+                            os.writeObject(compras);
+                            os.close();
+                        }  catch(Exception ex) { ex.printStackTrace(); }
+                    }else{
+                        FileInputStream fis = new FileInputStream("Compras.txt");
+                        ObjectInputStream ois = new ObjectInputStream(fis);
+                        compra compras2[]= (compra[]) ois.readObject( );
+                        ois.close();
+                        try {
+                            compra[] compras3 = new compra[compras2.length+1];
+                            for(int i=0; i<compras2.length; i++){
+                                compras3[i]=compras2[i];
+                            }
+                            compras3[compras2.length]=compraa;
+                            for(int i=0; i<compras3.length; i++){
+                                System.out.println(compras3[i]);
+                            }
+                            FileOutputStream fs = new FileOutputStream("Compras.txt");
+                            ObjectOutputStream os = new ObjectOutputStream(fs);
+                            os.writeObject(compras3);
+                            os.close();
+                        } catch(Exception ex) { ex.printStackTrace(); }
+                    }
+                } catch(Exception ex) { ex.printStackTrace(); }
+                crucero.dismPas((Integer)reservaciones.getValue());
+                try {
+                    FileInputStream fis = new FileInputStream("Cruceros.txt");
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+                    Crucero crucero2[]= (Crucero[]) ois.readObject( );
+                    ois.close();
+                    crucero2[index]=crucero;
+                    FileOutputStream fos = new FileOutputStream("Cruceros.txt");
+                    ObjectOutputStream ous = new ObjectOutputStream(fos);
+                    ous.writeObject(crucero2);
+                    ous.close();
+                    } catch(Exception ex) { ex.printStackTrace(); }
+                Sesion.getUsuarioActual().obtenerCuenta().disD(precio);
+                try {
+                    FileInputStream fis = new FileInputStream("Clientes.txt");
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+                    Cliente cliente2[]= (Cliente[]) ois.readObject( );
+                    ois.close();
+                    for(int i=0;i<cliente2.length;i++){
+                        if(Sesion.getUsuarioActual().obtenerCorreo().equals(cliente2[i].obtenerCorreo())){
+                            cliente2[i]=Sesion.getUsuarioActual();
+                        }
+                    }
+                    FileOutputStream fos = new FileOutputStream("Clientes.txt");
+                    ObjectOutputStream ous = new ObjectOutputStream(fos);
+                    ous.writeObject(cliente2);
+                    ous.close();
+                    
+                    } catch(Exception ex) { ex.printStackTrace(); }
+                System.out.println(crucero.getpr());
+            }else{
+                JOptionPane.showMessageDialog(verCrucero.this,"Lo siento, saldo insuficiente"); 
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(verCrucero.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(verCrucero.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(verCrucero.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(verCrucero.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
+        });
 
-        /* Create and display the form */
+        detallesPanel.add(origenDest);
+        detallesPanel.add(photoLabel);
+        detallesPanel.add(fsalida);
+        detallesPanel.add(fregreso);
+        detallesPanel.add(habitacionesR);
+        detallesPanel.add(clase);
+        detallesPanel.add(precio);
+        detallesPanel.add(reservaciones);
+        detallesPanel.add(comprar);
+        detallesFrame.add(detallesPanel);
+        detallesFrame.setVisible(true);
+    }
+
+    public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new verCrucero().setVisible(true);
+                new verHoteles().setVisible(true);
             }
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTcrucero;
-    // End of variables declaration//GEN-END:variables
 }

@@ -15,8 +15,8 @@ public class Bus extends Viaje implements Serializable{
     private double precio;
     private String clase;
     private String compania;
-    public Bus(String destino,String origen,String fechaS,String fechaR, int pas,double precio,String foto,String clase,String comp){
-        super(destino,"Bus",origen,fechaS,fechaR,60,pas,foto);
+    public Bus(String destino,String origen,String fechaS,String fechaR, int pas,double precio,byte[] foto,String clase,String comp){
+        super(destino,"Bus",origen,fechaS,fechaR,pas,foto);
         this.precio=precio;
         this.clase=clase;
         compania=comp;

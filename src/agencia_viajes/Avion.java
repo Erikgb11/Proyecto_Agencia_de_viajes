@@ -15,8 +15,8 @@ public class Avion extends Viaje implements Serializable{
     private double precio;
     private String clase;
     private String aerolinea;
-    public Avion(String destino,String origen,String fechaS,String fechaR, int pas,double precio,String foto,String clase, String Aerolinea){
-        super(destino,"Avion",origen,fechaS,fechaR,60,pas,foto);
+    public Avion(String destino,String origen,String fechaS,String fechaR, int pas,double precio,byte[] foto,String clase, String Aerolinea){
+        super(destino,"Avion",origen,fechaS,fechaR,pas,foto);
         this.precio=precio;
         this.clase=clase;
         this.aerolinea=Aerolinea;

@@ -16,26 +16,28 @@ public class Hotel implements Serializable{
     private int habitacionesT;
     private int habitacionesR;
     private String localizacion;
-    private String foto;
+    private byte[] foto;
     private String nombre;
     
     
-    public Hotel(double punt, double precio, int r, String loc,String nombre){
+    public Hotel(double punt, double precio, int r, String loc,String nombre, byte[] foto){
         puntuacion=punt;
         preNo=precio;
-        habitacionesT=60;
+        habitacionesT=r;
         habitacionesR=r;
         localizacion=loc;
         this.nombre=nombre;
+        this.foto=foto;
     }
     
-    public Hotel(double punt, double precio, int r, String loc,String foto,String nombre){
+    public Hotel(double punt, double precio, int r, String loc,byte[] foto,String nombre){
         puntuacion=punt;
         preNo=precio;
-        habitacionesT=60;
+        habitacionesT=r;
         habitacionesR=r;
         localizacion=loc;
         this.nombre=nombre;
+        this.foto=foto;
     }
     public double getpuntuacion(){
         return puntuacion;
@@ -49,15 +51,18 @@ public class Hotel implements Serializable{
     public String getlocalizacion(){
         return localizacion;
     }
-    public String getfoto(){
+    public byte[] getfoto(){
         return foto;
+    }
+    public void setFoto(byte[] foto){
+        this.foto=foto;
     }
     public String getnombre(){
         return nombre;
     }
     public void Reser(int h){
-        if(habitacionesT>=0){
-            habitacionesT=habitacionesT-h;
+        if(habitacionesR>=0){
+            habitacionesR=habitacionesR-h;
         }
     }
     public int getReser(){

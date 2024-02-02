@@ -6,8 +6,8 @@
 package agencia_viajes;
 
 import java.io.*;
-import javax.swing.JOptionPane;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
+import agencia_viajes.*;
 
 /**
  *
@@ -23,19 +23,8 @@ public class Meterdin extends javax.swing.JFrame {
         n.setMaximum(50000);
         n.setMinimum(0);
         jSdinero.setModel(n);
-        Cliente Cli=new Cliente(" "," "," ");
-        try{
-            FileInputStream fis = new FileInputStream("Clientes.txt");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            Cliente clientes2[]= (Cliente[]) ois.readObject();
-            ois.close();
-            for(int i=0; i<clientes2.length; i++){
-                if(clientes2[i].getactivo()==1){
-                    Cli=clientes2[i];
-                }
-            }
-        } catch(Exception e) { e.printStackTrace(); }
-       jTsaldo.setText(String.valueOf(Cli.obtenerCuenta().mostrarS()));
+        Cliente Cli=Sesion.getUsuarioActual();
+        jTsaldo.setText(String.valueOf(Cli.obtenerCuenta().mostrarS()));
         
     }
     
@@ -141,41 +130,29 @@ public class Meterdin extends javax.swing.JFrame {
     }//GEN-LAST:event_jTsaldoActionPerformed
 
     private void jBaceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBaceptActionPerformed
-
+        Cliente Cli=Sesion.getUsuarioActual();
+        Cli.obtenerCuenta().aumeS(Double.parseDouble(jSdinero.getValue()+".0"));
         try{
             FileInputStream fis = new FileInputStream("Clientes.txt");
             ObjectInputStream ois = new ObjectInputStream(fis);
             Cliente clientes2[]= (Cliente[]) ois.readObject( );
-            ois.close();
-            int el=0,c=0;
             for(int i=0; i<clientes2.length; i++){
-                if(clientes2[i].getactivo()==1){
-                    c=i;
+                if(clientes2[i].obtenerCorreo().equals(Cli.obtenerCorreo())){
+                    clientes2[i]=Cli;
+                    break;
                 }
             } 
-            Cliente Cli=clientes2[c];
-            System.out.println(Cli.obtenerCuenta().mostrarS());
-            jTsaldo.setText(String.valueOf(Cli.obtenerCuenta().mostrarS()));
-            Cli.obtenerCuenta().aumeS(Double.parseDouble(jSdinero.getValue()+".0"));
-            clientes2[c]=Cli;
             FileOutputStream fs = new FileOutputStream("Clientes.txt");
             ObjectOutputStream os = new ObjectOutputStream(fs);
             os.writeObject(clientes2);
-            os.close();
-        } catch(Exception e) { e.printStackTrace(); }
-        Cliente Cli=new Cliente(" "," "," ");
-        try{
-            FileInputStream fis = new FileInputStream("Clientes.txt");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            Cliente clientes2[]= (Cliente[]) ois.readObject();
             ois.close();
-            for(int i=0; i<clientes2.length; i++){
-                if(clientes2[i].getactivo()==1){
-                    Cli=clientes2[i];
-                }
-            }
+            
         } catch(Exception e) { e.printStackTrace(); }
-       jTsaldo.setText(String.valueOf(Cli.obtenerCuenta().mostrarS()));
+        
+        
+        System.out.println(Cli.obtenerCuenta().mostrarS());
+        jTsaldo.setText(String.valueOf(Cli.obtenerCuenta().mostrarS()));
+        
     }//GEN-LAST:event_jBaceptActionPerformed
 
     private void jBcancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBcancelActionPerformed

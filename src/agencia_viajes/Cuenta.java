@@ -22,6 +22,9 @@ public class Cuenta implements Serializable{
     public Cuenta(double saldo){
         this.saldo=saldo;
     }
+    public void disD(double compra){
+        saldo=saldo-compra;
+    }
     
     public void aumeS(double ausal){
         saldo=saldo+ausal;

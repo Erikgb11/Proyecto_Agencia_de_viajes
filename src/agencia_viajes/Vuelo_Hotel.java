@@ -21,7 +21,7 @@ public class Vuelo_Hotel implements Paquetes,Serializable{
         hotel=h;
         preio();
     }
-    public Viaje Mostrarviaje(){
+    public Avion Mostrarviaje(){
         return viaje;
     }
     public Hotel mostarh(){
@@ -29,7 +29,7 @@ public class Vuelo_Hotel implements Paquetes,Serializable{
     }
     public void PersonasD(int a){
         hotel.Reser(a);
-        viaje.eitpr(a);
+        //viaje.eitpr(a);
     }
     public void preio(){
         precio=hotel.getpreNo()+viaje.getprecio();

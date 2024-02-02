@@ -15,8 +15,8 @@ public class Crucero extends Viaje implements Serializable{
     private String clase;
     private double precio;
     
-    public Crucero(String destino,String origen,String fechaS,String fechaR,int pas,String foto,String clase,double precio){
-        super(destino,"Crucero",origen,fechaS,fechaR,60,pas,foto);
+    public Crucero(String destino,String origen,String fechaS,String fechaR,int pas,byte[] foto,String clase,double precio){
+        super(destino,"Crucero",origen,fechaS,fechaR,pas,foto);
         this.clase=clase;
         this.precio=precio;
     }

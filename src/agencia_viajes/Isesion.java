@@ -11,7 +11,13 @@ package agencia_viajes;
  * @author HP
  */
 import java.io.*;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import javax.activation.*;
+import javax.mail.*;
+import java.util.*;
+
+import javax.mail.internet.*;
+import agencia_viajes.Sesion;
 public class Isesion extends javax.swing.JFrame {
 
     /**
@@ -20,7 +26,39 @@ public class Isesion extends javax.swing.JFrame {
     public Isesion() {
         initComponents();
     }
+    public static void transfer_to_email(String correo, String nombre, String pass) {
+        System.out.println(correo + " " + nombre);
+        String correoEnvia = "Aqui va tu correo";
+        String contraseña = "Aqui va tu contraseña generada(sin espacios)";
+        String mensaje = "Hola " + nombre
+                + " tu password es: "+pass;
 
+        Properties objectPEC = new Properties();
+        objectPEC.put("mail.smtp.host", "smtp.gmail.com");
+        objectPEC.setProperty("mail.smtp.starttls.enable", "true");
+        objectPEC.put("mail.smtp.port", "587");
+        objectPEC.setProperty("mail.smtp.port", "587");
+        objectPEC.put("mail.smtp.user", correoEnvia);
+        objectPEC.setProperty("mail.smtp.auth", "true");
+
+        Session sesion = Session.getDefaultInstance(objectPEC);
+        MimeMessage mail = new MimeMessage(sesion);
+
+        try {
+            mail.setFrom(new InternetAddress(correoEnvia));
+            mail.addRecipient(Message.RecipientType.TO, new InternetAddress(correo));
+            mail.setSubject("Envio de datos");
+            mail.setText(mensaje);
+
+            Transport transporte = sesion.getTransport("smtp");
+            transporte.connect(correoEnvia, contraseña);
+            transporte.sendMessage(mail, mail.getRecipients(Message.RecipientType.TO));
+            transporte.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,11 +73,12 @@ public class Isesion extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jTcorreo = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTcont = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jBcancel = new javax.swing.JButton();
         jBaceptar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jTcont = new javax.swing.JPasswordField();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,44 +112,56 @@ public class Isesion extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Recuperar contraseña");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(140, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTcont, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTcorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTnom, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(136, 136, 136))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(169, 169, 169))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(177, 177, 177))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(178, 178, 178))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(153, 153, 153))))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addComponent(jBcancel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(46, 46, 46)
                 .addComponent(jBaceptar)
                 .addGap(40, 40, 40))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTcont, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(169, 169, 169))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(177, 177, 177))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(178, 178, 178))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(153, 153, 153))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTcorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTnom, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(136, 136, 136))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(136, 136, 136))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
@@ -122,9 +173,11 @@ public class Isesion extends javax.swing.JFrame {
                 .addComponent(jTcorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTcont, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBcancel)
                     .addComponent(jBaceptar)
@@ -142,7 +195,10 @@ public class Isesion extends javax.swing.JFrame {
     private void jBaceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBaceptarActionPerformed
         String name=jTnom.getText();
         String correo=jTcorreo.getText();
-        String contra=jTcont.getText();
+        char[] contraChars = jTcont.getPassword();
+        String contra = new String(contraChars);
+        
+        
         Cliente C1=new Cliente(name,correo,contra);
         try{
             FileInputStream fis = new FileInputStream("Clientes.txt");
@@ -154,6 +210,7 @@ public class Isesion extends javax.swing.JFrame {
                 if((clientes2[i].obtenerNombre().equals(C1.obtenerNombre()))&&(clientes2[i].obtenerCorreo().equals(C1.obtenerCorreo()))&&(clientes2[i].obtenerContra().equals(C1.obtenerContra()))){
                     el++;
                     c=i;
+                    Sesion.setUsuarioActual(clientes2[i]);
                 }
             }
             System.out.println(el);
@@ -171,9 +228,37 @@ public class Isesion extends javax.swing.JFrame {
                 In.setVisible(true);
                 dispose();
             }else{
-                JOptionPane.showMessageDialog(this,"Lo siento, valores incorrectos"); 
-            }
-        } catch(Exception e) { e.printStackTrace(); }
+                Admin admin=new Admin(name,correo,contra);
+                try{
+                    FileInputStream fis1 = new FileInputStream("Admins.txt");
+                    ObjectInputStream ois1 = new ObjectInputStream(fis1);
+                    Admin admins2[]= (Admin[]) ois1.readObject( );
+                    ois1.close();
+                    int e=0;
+                    for(int i=0; i<admins2.length; i++){
+                        if((admins2[i].getNombre().equals(admin.getNombre()))&&(admins2[i].getCorreo().equals(admin.getCorreo()))&&(admins2[i].getContra().equals(admin.getContra()))){
+                            e++;
+                            sesionAdmin.setUsuarioActual(admins2[i]);
+                        }
+                    }
+                    System.out.println(el);
+                    if(e==1){
+                        System.out.println("Sesion iniciada");
+                        JOptionPane.showMessageDialog(this,"Sesion Iniciada \n bienvenido"); 
+                        try {
+                            FileOutputStream fs1 = new FileOutputStream("Admins.txt");
+                            ObjectOutputStream os1 = new ObjectOutputStream(fs1);
+                            os1.writeObject(admins2);
+                            os1.close();
+                        } catch(Exception ex) { ex.printStackTrace(); }
+                        InicioAdmin IA=new InicioAdmin();
+                        IA.setVisible(true);
+                        dispose();
+                    }else{
+                        JOptionPane.showMessageDialog(this,"Lo siento, valores incorrectos"); 
+                }
+                }catch(Exception e) { e.printStackTrace(); }
+        }} catch(Exception e) { e.printStackTrace(); }
     }//GEN-LAST:event_jBaceptarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -181,6 +266,34 @@ public class Isesion extends javax.swing.JFrame {
         Cs.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String correo = JOptionPane.showInputDialog("Escribe tu correo \nSe enviara un correo con tu contraseña");
+	try {
+            FileInputStream fis = new FileInputStream("Clientes.txt");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Cliente clientes2[]= (Cliente[]) ois.readObject( );
+            ois.close();
+            int c=0;
+            for(int i=0; i<clientes2.length; i++){
+                if(clientes2[i].obtenerCorreo().equals(correo)){
+                    transfer_to_email(correo,clientes2[i].obtenerNombre(),clientes2[i].obtenerContra());
+                    c++;
+                }
+            }
+            if(c==0){
+                FileInputStream fis1 = new FileInputStream("Admins.txt");
+                ObjectInputStream ois1 = new ObjectInputStream(fis1);
+                Admin admins2[]= (Admin[]) ois1.readObject( );
+                ois1.close();
+                for(int i=0; i<admins2.length; i++){
+                    if(admins2[i].getCorreo().equals(correo)){
+                        transfer_to_email(correo,admins2[i].getNombre(),admins2[i].getContra());
+                    }
+                }
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -221,11 +334,12 @@ public class Isesion extends javax.swing.JFrame {
     private javax.swing.JButton jBaceptar;
     private javax.swing.JButton jBcancel;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTcont;
+    private javax.swing.JPasswordField jTcont;
     private javax.swing.JTextField jTcorreo;
     private javax.swing.JTextField jTnom;
     // End of variables declaration//GEN-END:variables
