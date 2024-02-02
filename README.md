@@ -33,80 +33,80 @@ La aplicación es capaz de enviar correos electronicos usando JavaMail.
 
 ## Demostración
 A continuación se muestran algunos videos demostrativos de la aplicación. Si desea ver más a detalle cada caso, puedes ir al apartado de 
-![demostraciones](demostraciones/README.md)
+[demostraciones](demostraciones/README.md)
 
 ### Creación de cuenta(Administrador)
 Primero comenzamos con la creación del administrador, el cual se encarga de gestionar los servicios a vender
-![Creación Admin](/demostraciones/creacionAdmin.mp4) 
+[Creación Admin](/demostraciones/creacionAdmin.mp4) 
 Y como podemos ver nos llega el correo correspondiente.
-![Correo Creacion de Admin](/demostraciones/CreacionAdmin1.png) 
+[Correo Creacion de Admin](/demostraciones/CreacionAdmin1.png) 
 
 ### Inicio de sesión (Admin)
 Iniciamos sesión con alguna de las cuentas registradas
-![Inicio de Sesión Admin](/demostraciones/InicioSesion1.mp4)
+[Inicio de Sesión Admin](/demostraciones/InicioSesion1.mp4)
 
 ### Creación de cuenta(Cliente)
 Seguimos con la creación de una cuenta de cliente
-![Creación de Cliente](/demostraciones/creacionCliente.mp4)
+[Creación de Cliente](/demostraciones/creacionCliente.mp4)
 Ahora podemos ir a nuestro correo y vemos que se mando el correo correspondiente
-![Correo Creacion de Cliente](/demostraciones/CreacionCliente1.png) 
+[Correo Creacion de Cliente](/demostraciones/CreacionCliente1.png) 
 
 ### Inicio de sesión (Cliente)
 Iniciamos sesión con alguna de las cuentas registradas
-![Inicio Sesión Cliente](/demostraciones/InicioSesionCli.mp4) 
+[Inicio Sesión Cliente](/demostraciones/InicioSesionCli.mp4) 
 
 ### Olvide mi contraseña
 Recuperamos la contraseña
-![Recuperar contraseña](/demostraciones/RecuperarContra1.png) 
+[Recuperar contraseña](/demostraciones/RecuperarContra1.png) 
 
 Y observamos que se envio el correo correspondiente
-![Correo con contraseña](/demostraciones/RecuperarContra2.png) 
+[Correo con contraseña](/demostraciones/RecuperarContra2.png) 
 
 ### Subir saldo
 Subimos el saldo de nuestra cuenta para poder comprar servicios
-![Aumentar Saldo](/demostraciones/RecargaCli.mp4) 
+[Aumentar Saldo](/demostraciones/RecargaCli.mp4) 
 
 ### Registro de Viajes
 Registramos un servicio con la cuenta de Administrador
-![Ingresar Bus](/demostraciones/IngresarBus1.mp4) 
+[Ingresar Bus](/demostraciones/IngresarBus1.mp4) 
 
 Ahora vemos el Autobus registrado
-![Bus Registrado](/demostraciones/IngresarBus2.png) 
+[Bus Registrado](/demostraciones/IngresarBus2.png) 
 
 
 ### Registro de Hotel
 Registramos un hotel con la cuenta de administrador
-![Ingresar Hotel](/demostraciones/IngresarHotel1.mp4) 
+[Ingresar Hotel](/demostraciones/IngresarHotel1.mp4) 
 
 Ahora vemos el Hotel registrado
-![Hotel Registrado](/demostraciones/IngresarHotel2.png) 
+[Hotel Registrado](/demostraciones/IngresarHotel2.png) 
 
 ### Registro de Paquetes
 Registramos algun paquete de viaje y hotel
-![Ingresar Hotel-Bus](/demostraciones/IngresarHB1.mp4) 
+[Ingresar Hotel-Bus](/demostraciones/IngresarHB1.mp4) 
 
 Ahora vemos el Bus-Hotel registrado
-![Hotel-Bus registrado](/demostraciones/IngresarHB2.png) 
+[Hotel-Bus registrado](/demostraciones/IngresarHB2.png) 
 
 ### Edicion de cuenta
 Se lleva a cabo la edición de una de las cuentas registradas
-![Edición cuenta](/demostraciones/EdicionCuenta1.mp4) 
+[Edición cuenta](/demostraciones/EdicionCuenta1.mp4) 
 
 Y se muestra el correo que se envio
-![Correo de Edición cuenta](/demostraciones/EdicionCuenta2.png) 
+[Correo de Edición cuenta](/demostraciones/EdicionCuenta2.png) 
 
 ### Comprar servicio e Historial de compras
 Compramos uno de los servicios disponibles en el catalogo y vemos su historial de compras
-![Comprar y mostrar historial](/demostraciones/ComprarEhistorial.mp4) 
+[Comprar y mostrar historial](/demostraciones/ComprarEhistorial.mp4) 
 
 ### Borrar Cuenta
 Aquí es posible llevar a cabo la eliminación de cuentas tanto al cliente como al admin pero se probara con el cliente
-![Borrar Cuenta](/demostraciones/BorrarCuenta1.mp4)
-![Correo de borrar Cuenta](/demostraciones/BorrarCuenta2.png)
-![Intento de inicio de sesión](/demostraciones/BorrarCuenta3.png)
+[Borrar Cuenta](/demostraciones/BorrarCuenta1.mp4)
+[Correo de borrar Cuenta](/demostraciones/BorrarCuenta2.png)
+[Intento de inicio de sesión](/demostraciones/BorrarCuenta3.png)
 
 ### Mostrar historial (Admin)
 El admin puede acceder a el historial de todas las compras.
-![Se muestra historial de todas las compras](/demostraciones/HistorialAdmin.mp4) 
+[Se muestra historial de todas las compras](/demostraciones/HistorialAdmin.mp4) 
 
 
